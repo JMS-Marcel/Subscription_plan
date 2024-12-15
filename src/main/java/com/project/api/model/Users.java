@@ -30,14 +30,5 @@ public class Users {
 
   @OneToOne(mappedBy = "user")
   private Subscription subscription;
-
-  // public Users(){
-
-  // }
-  // public Users(String name, String password, String email){
-  //   this.name = name;
-  //   this.password = password;
-  //   this.email = email;
-  // }
   
 }
