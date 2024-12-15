@@ -1,15 +1,11 @@
 package com.project.api.model;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.SequenceGenerator;
-import jakarta.persistence.Table;
-import lombok.AllArgsConstructor;
+import jakarta.persistence.*;
+
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@AllArgsConstructor
+@NoArgsConstructor
 @Getter
 @Setter
 @Entity
@@ -31,6 +27,9 @@ public class Users {
   private String name;
   private String password;
   private String email;
+
+  @OneToOne(mappedBy = "user")
+  private Subscription subscription;
 
   // public Users(){
 
