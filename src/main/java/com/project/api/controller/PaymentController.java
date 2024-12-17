@@ -1,5 +1,6 @@
 package com.project.api.controller;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.http.HttpStatus;
@@ -29,5 +30,16 @@ public class PaymentController {
     paymentService.addPayment(payment);
 
     return ResponseEntity.status(HttpStatus.CREATED).body("{\"message\":\"Payment successfully\"}");
+  }
+
+  @PutMapping(path = "{paymentId}")
+  public ResponseEntity<String> updatePayment(
+    @PathVariable("paymentId") Long paymentId, 
+    @RequestParam(required = false) Double amount,
+    @RequestParam(required = false) LocalDate date
+
+  ){
+    paymentService.updatePayment(paymentId, amount, date);
+    return ResponseEntity.status(HttpStatus.CREATED).body("{\"message\":\"Payment updated successfully\"}");
   }
 }
