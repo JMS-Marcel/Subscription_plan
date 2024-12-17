@@ -18,4 +18,8 @@ public class PaymentService {
   public List<Payment> getPayment(){
     return paymentRepository.findAll();
   }
+
+  public void addPayment(Payment payment){
+    paymentRepository.save(payment);
+  }
 }
