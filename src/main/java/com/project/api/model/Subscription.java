@@ -1,6 +1,7 @@
 package com.project.api.model;
 
-import java.util.Date;
+
+import java.time.LocalDate;
 import java.util.List;
 
 import jakarta.persistence.*;
@@ -28,8 +29,8 @@ public class Subscription {
   private Long id;
 
   private String type;
-  private Date startDate;
-  private Date endDate;
+  private LocalDate startDate;
+  private LocalDate endDate;
   private String status;
 
   @ManyToOne
