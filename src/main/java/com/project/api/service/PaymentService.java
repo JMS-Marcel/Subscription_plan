@@ -39,4 +39,12 @@ public class PaymentService {
       payment.setDate(date);
     }
   }
+  
+  public void deletePayment(Long paymentId){
+    boolean exists = paymentRepository.existsById(paymentId);
+    if(!exists){
+      throw new IllegalStateException("Subscription with id :" + paymentId + " does not exists");
+    }
+    paymentRepository.deleteById(paymentId);
+  }
 }

@@ -42,4 +42,10 @@ public class PaymentController {
     paymentService.updatePayment(paymentId, amount, date);
     return ResponseEntity.status(HttpStatus.CREATED).body("{\"message\":\"Payment updated successfully\"}");
   }
+
+  @DeleteMapping(path = "{paymentId}")
+  public ResponseEntity<String> deletePayment(@PathVariable("paymentId") Long paymentId){
+    paymentService.deletePayment(paymentId);
+    return ResponseEntity.status(HttpStatus.CREATED).body("{\"message\":\"Payment id " + paymentId +" deleted successfully\"}");
+  }
 }
