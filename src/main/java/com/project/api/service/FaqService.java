@@ -39,4 +39,13 @@ public class FaqService {
       faq.setAnswer(answer);
     }
   }
+
+  public void deleteFaq(Long faqId){
+    boolean exists = faqRepository.existsById(faqId);
+
+    if(!exists){
+      throw new IllegalStateException("Faq with id : " + faqId + " does not exists");
+    }
+    faqRepository.deleteById(faqId);
+  }
 }

@@ -39,4 +39,10 @@ public class FaqController {
     faqService.updateFaq(faqId, question, answer);
     return ResponseEntity.status(HttpStatus.CREATED).body("{\"message\":\"Faq updated successfully\"}");
   }
+
+  @DeleteMapping(path = "{faqId}")
+  public ResponseEntity<String> deletefaq(@PathVariable("faqId") Long faqId){
+    faqService.deleteFaq(faqId);
+    return ResponseEntity.status(HttpStatus.CREATED).body("{\"message\":\"FAq id : " + faqId + " is deleted successfully\"}");
+  }
 }
