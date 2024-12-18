@@ -23,7 +23,7 @@ public class Packages {
 
   )
 
-  private Long Id;
+  private Long id;
   private String name;
   private Double price;
 
