@@ -37,5 +37,13 @@ public class PackageService {
       packages.setPrice(price);
     }
   }
+
+  public void deletePackage(Long packageId){
+    boolean exists = packageRepository.existsById(packageId);
+    if(!exists){
+      throw new IllegalStateException("PAckage with id : "+ packageId +" does not exists");
+    }
+    packageRepository.deleteById(packageId);
+  }
  
 }

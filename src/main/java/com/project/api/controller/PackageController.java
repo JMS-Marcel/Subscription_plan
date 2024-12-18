@@ -45,6 +45,13 @@ public class PackageController {
     return ResponseEntity.status(HttpStatus.CREATED).body("{\"message\":\"Package updated successfully\"}");
   }
 
+  @DeleteMapping(path = "{packageId}")
+  public ResponseEntity<String> deletePackage(@PathVariable("packageId") Long packageId){
+    packageService.deletePackage(packageId);
+
+    return ResponseEntity.status(HttpStatus.CREATED).body("{\"message\":\"Package id " + packageId +" deleted successfully\"}");
+  }
+
 
   }
   
