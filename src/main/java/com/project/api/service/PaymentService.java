@@ -29,7 +29,7 @@ public class PaymentService {
   }
 
   @Transactional
-  public void updatePayment(Long paymentId, Double amount,@DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date){
+  public void updatePayment(Long paymentId, Double amount,@DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date, String status){
     Payment payment = paymentRepository.findById(paymentId).orElseThrow(()-> new IllegalStateException("Payment with id " + paymentId + " does not exists"));
 
     if(amount != null && !amount.isNaN() && !Objects.equals(payment.getAmount(), amount)){
@@ -37,6 +37,9 @@ public class PaymentService {
     }
     if(date != null && !Objects.equals(payment.getDate(), date)){
       payment.setDate(date);
+    }
+    if(status != null && status.length() > 0 && !Objects.equals(payment.getStatus(), status)){
+      payment.setStatus(status);
     }
   }
   
@@ -48,8 +51,21 @@ public class PaymentService {
     paymentRepository.deleteById(paymentId);
   }
 
-  public void processPayment(){
-
+  public void processPayment() {
+    List<Payment> pendingPayments = paymentRepository.findByStatus("PENDING");
+    
+    for (Payment payment : pendingPayments) {
+      
+      boolean success = payment.getAmount() > 0;
+      
+      if (success) {
+        payment.setStatus("COMPLETED");
+      } else {
+        payment.setStatus("FAILED");
+      }
+      
+      paymentRepository.save(payment);
+    }
   }
 
   public void refund(){
