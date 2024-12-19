@@ -1,6 +1,7 @@
 package com.project.api.controller;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -33,10 +34,14 @@ public class FaqController {
   @PutMapping(path = "{faqId}")
   public ResponseEntity<String> updateFaq(
     @PathVariable("faqId") Long faqId,
-    @RequestParam(required = false) String question,
-    @RequestParam(required = false) String answer
+    @RequestBody Map<String, String> faqData
   ){
+
+    String question = faqData.get("question");
+    String answer = faqData.get("answer");
+
     faqService.updateFaq(faqId, question, answer);
+    
     return ResponseEntity.status(HttpStatus.CREATED).body("{\"message\":\"Faq updated successfully\"}");
   }
 
