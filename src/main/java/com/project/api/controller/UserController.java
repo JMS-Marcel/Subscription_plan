@@ -1,6 +1,7 @@
 package com.project.api.controller;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -39,10 +40,12 @@ public class UserController {
 
   @PutMapping(path = "{userId}")
   public ResponseEntity<String> updateUser(@PathVariable("userId") Long userId,
-    @RequestParam(required= false) String name,
-    @RequestParam(required= false) String password,
-    @RequestParam(required= false) String email
+    @RequestBody Map<String, String> userData
   ){
+    String name = userData.get("name");
+    String password = userData.get("password");
+    String email = userData.get("email");
+
       userService.updateUser(userId, name, password, email);
 
       return ResponseEntity.status(HttpStatus.CREATED).body("{\"message\":\"User updated successfully\"}");
