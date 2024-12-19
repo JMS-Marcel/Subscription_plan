@@ -45,5 +45,9 @@ public class PackageService {
     }
     packageRepository.deleteById(packageId);
   }
+
+  public void getDetails(){
+    
+  }
  
 }
