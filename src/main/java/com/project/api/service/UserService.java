@@ -62,4 +62,16 @@ public class UserService {
     }
     userRepository.deleteById(userId);
   }
+
+  public void register(){
+
+  }
+
+  public void login(){
+
+  }
+
+  public void updateProfile(){
+    
+  }
 }
