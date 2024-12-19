@@ -67,4 +67,16 @@ public class SubscriptionService {
     }
     subscriptionRepository.deleteById(subscriptionId);
   }
+
+  public void activated(){
+
+  }
+
+  public void cancel(){
+
+  }
+
+  public void modify(){
+    
+  }
 }
