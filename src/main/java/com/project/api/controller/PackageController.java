@@ -61,8 +61,11 @@ public class PackageController {
     return ResponseEntity.status(HttpStatus.CREATED).body("{\"message\":\"Package id " + packageId +" deleted successfully\"}");
   }
 
-
+  @GetMapping("/{packageId}/details")
+  public Packages getDetails(@PathVariable("packageId") Long packageId){
+    return packageService.getDetails(packageId);
   }
+}
   
   
   

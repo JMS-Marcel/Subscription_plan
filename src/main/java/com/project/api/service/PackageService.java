@@ -46,7 +46,13 @@ public class PackageService {
     packageRepository.deleteById(packageId);
   }
 
-  public void getDetails(){
+  public Packages getDetails(Long packageId){
+    Packages packages = packageRepository.findById(packageId).orElseThrow(
+      ()-> new IllegalStateException("Package with id " + packageId +" does not exists")
+    );
+
+    return packages;
+
     
   }
  
