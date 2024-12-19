@@ -32,7 +32,7 @@ public class UserController {
 
   @PostMapping()
   public ResponseEntity<String> registerNewUser(@RequestBody Users users){
-    userService.addNewUser(users);
+    userService.register(users);
 
     return ResponseEntity.status(HttpStatus.CREATED).body("{\"message\":\"User added successfully\"}");
 
@@ -46,7 +46,7 @@ public class UserController {
     String password = userData.get("password");
     String email = userData.get("email");
 
-      userService.updateUser(userId, name, password, email);
+      userService.updateProfil(userId, name, password, email);
 
       return ResponseEntity.status(HttpStatus.CREATED).body("{\"message\":\"User updated successfully\"}");
   }
@@ -57,4 +57,14 @@ public class UserController {
     userService.deleteUser(userId);
     return ResponseEntity.status(HttpStatus.CREATED).body("{\"message\":\"User " + userId + " is deleted successfully\"}");
   }
+
+  @PostMapping("/login")
+    public ResponseEntity<String> login(
+      @RequestBody Map<String, String> userData
+      ) {
+        String email = userData.get("email");
+        String password = userData.get("password");
+        String response = userService.login(email, password);
+        return ResponseEntity.status(HttpStatus.OK).body(response);
+    }
 }
