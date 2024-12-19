@@ -47,4 +47,12 @@ public class PaymentService {
     }
     paymentRepository.deleteById(paymentId);
   }
+
+  public void processPayment(){
+
+  }
+
+  public void refund(){
+    
+  }
 }
