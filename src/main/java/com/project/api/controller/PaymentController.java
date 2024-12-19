@@ -2,6 +2,7 @@ package com.project.api.controller;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -35,11 +36,14 @@ public class PaymentController {
   @PutMapping(path = "{paymentId}")
   public ResponseEntity<String> updatePayment(
     @PathVariable("paymentId") Long paymentId, 
-    @RequestParam(required = false) Double amount,
-    @RequestParam(required = false) LocalDate date
-
+    @RequestBody Map<String, String> paymentData 
   ){
+
+    Double amount = Double.parseDouble(paymentData.get("amount"));
+    LocalDate date = LocalDate.parse(paymentData.get("date").toString());
+
     paymentService.updatePayment(paymentId, amount, date);
+
     return ResponseEntity.status(HttpStatus.CREATED).body("{\"message\":\"Payment updated successfully\"}");
   }
 
