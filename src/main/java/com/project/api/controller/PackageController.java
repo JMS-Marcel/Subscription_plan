@@ -1,6 +1,7 @@
 package com.project.api.controller;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -38,10 +39,18 @@ public class PackageController {
   @PutMapping(path = "{packageId}")
   public ResponseEntity<String> updatePackage(
     @PathVariable("packageId") Long packageId, 
-    @RequestParam(required = false) String name,
-    @RequestParam(required = false) Double price
+    @RequestBody Map<String, String> packageData
   ){
+
+    String name = packageData.get("name");
+    Double price = null;
+
+    if (packageData.get("price") != null) {
+      price = Double.parseDouble(packageData.get("price"));
+    }
+
     packageService.updatePackage(packageId, name, price);
+
     return ResponseEntity.status(HttpStatus.CREATED).body("{\"message\":\"Package updated successfully\"}");
   }
 
