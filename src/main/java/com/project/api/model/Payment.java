@@ -28,6 +28,7 @@ public class Payment {
 
   private Double amount;
   private LocalDate date;
+  private String status;
 
   @ManyToOne
   @JoinColumn( name = "subscription_id")

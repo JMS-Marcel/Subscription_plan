@@ -41,8 +41,9 @@ public class PaymentController {
 
     Double amount = Double.parseDouble(paymentData.get("amount"));
     LocalDate date = LocalDate.parse(paymentData.get("date").toString());
+    String status = paymentData.get("status");
 
-    paymentService.updatePayment(paymentId, amount, date);
+    paymentService.updatePayment(paymentId, amount, date, status);
 
     return ResponseEntity.status(HttpStatus.CREATED).body("{\"message\":\"Payment updated successfully\"}");
   }
