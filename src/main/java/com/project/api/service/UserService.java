@@ -23,7 +23,7 @@ public class UserService {
     return userRepository.findAll();
   }
 
-  public void addNewUser(Users users){
+  public void register(Users users){
     Optional<Users> userOptional = userRepository.findByEmail(users.getEmail());
     if(userOptional.isPresent()){
       throw new IllegalStateException("This email is already taken");
@@ -33,7 +33,7 @@ public class UserService {
   }
 
   @Transactional
-  public void updateUser(Long userId, String name, String password, String email ){
+  public void updateProfil(Long userId, String name, String password, String email ){
     Users users = userRepository.findById(userId).orElseThrow(
       ()-> new IllegalStateException("User with id " + userId + " does not exists")
     );
@@ -63,15 +63,16 @@ public class UserService {
     userRepository.deleteById(userId);
   }
 
-  public void register(){
+  public String login(String email, String password) {
+    Users user = userRepository.findByEmail(email).orElseThrow(
+        () -> new IllegalStateException("User with email " + email + " does not exist")
+    );
 
-  }
+    if (!user.getPassword().equals(password)) {
+        throw new IllegalStateException("Incorrect password");
+    }
 
-  public void login(){
-
-  }
-
-  public void updateProfile(){
-    
-  }
+    // Return a success message or a token (for simplicity, returning a message here)
+    return "Login successful";
+}
 }
