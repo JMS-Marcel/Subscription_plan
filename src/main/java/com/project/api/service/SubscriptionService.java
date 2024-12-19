@@ -68,15 +68,27 @@ public class SubscriptionService {
     subscriptionRepository.deleteById(subscriptionId);
   }
 
-  public void activated(){
+  @Transactional
+  public void activated(Long subscriptionId) {
+    Subscription subscription = subscriptionRepository.findById(subscriptionId).orElseThrow(
+        () -> new IllegalStateException("Subscription with id " + subscriptionId + " does not exist")
+    );
 
+    if (!"ACTIVE".equals(subscription.getStatus())) {
+        subscription.setStatus("ACTIVE");
+        subscriptionRepository.save(subscription);
+    }
   }
 
-  public void cancel(){
-
-  }
-
-  public void modify(){
-    
+  @Transactional
+  public void cancel(Long subscriptionId) {
+      Subscription subscription = subscriptionRepository.findById(subscriptionId).orElseThrow(
+          () -> new IllegalStateException("Subscription with id " + subscriptionId + " does not exist")
+      );
+  
+      if (!"CANCELLED".equals(subscription.getStatus())) {
+          subscription.setStatus("CANCELLED");
+          subscriptionRepository.save(subscription);
+      }
   }
 }

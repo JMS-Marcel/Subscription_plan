@@ -57,4 +57,16 @@ public class SubscriptionController {
 
     return ResponseEntity.status(HttpStatus.CREATED).body("{\"message\":\"Subscription id : " + subscriptionId + " is deleted successfully\"}");
   }
+
+  @PutMapping(path = "{subscriptionId}/activate")
+    public ResponseEntity<String> activateSubscription(@PathVariable("subscriptionId") Long subscriptionId) {
+        subscriptionService.activated(subscriptionId);
+        return ResponseEntity.status(HttpStatus.OK).body("{\"message\":\"Subscription activated successfully\"}");
+    }
+
+    @PutMapping(path = "{subscriptionId}/cancel")
+    public ResponseEntity<String> cancelSubscription(@PathVariable("subscriptionId") Long subscriptionId) {
+        subscriptionService.cancel(subscriptionId);
+        return ResponseEntity.status(HttpStatus.OK).body("{\"message\":\"Subscription cancelled successfully\"}");
+    } 
 }
