@@ -45,6 +45,10 @@ public class Subscription {
   @JoinColumn( name = "user_id")
   private User user;
 
+  @ManyToOne
+  @JoinColumn( name = "package_id")
+  private Packages packages;
+
   @OneToMany(mappedBy = "subscription")
   private List<Payment> payments;
 
