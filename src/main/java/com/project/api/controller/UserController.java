@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import com.project.api.service.UserService;
 
 
-import com.project.api.model.Users;
+import com.project.api.model.User;
 
 
 
@@ -26,12 +26,12 @@ public class UserController {
   }
 
   @GetMapping
-  public List<Users> getUsers() {
+  public List<User> getUsers() {
       return userService.getUsers();
   }
 
   @PostMapping()
-  public ResponseEntity<String> registerNewUser(@RequestBody Users users){
+  public ResponseEntity<String> registerNewUser(@RequestBody User users){
     userService.register(users);
 
     return ResponseEntity.status(HttpStatus.CREATED).body("{\"message\":\"User added successfully\"}");
@@ -42,11 +42,12 @@ public class UserController {
   public ResponseEntity<String> updateUser(@PathVariable("userId") Long userId,
     @RequestBody Map<String, String> userData
   ){
-    String name = userData.get("name");
+    String firstname = userData.get("firstname");
+    String lastname = userData.get("lastname");
     String password = userData.get("password");
     String email = userData.get("email");
 
-      userService.updateProfil(userId, name, password, email);
+      userService.updateProfil(userId, firstname, lastname, password, email);
 
       return ResponseEntity.status(HttpStatus.CREATED).body("{\"message\":\"User updated successfully\"}");
   }
