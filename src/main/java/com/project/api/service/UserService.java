@@ -6,7 +6,7 @@ import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
-import com.project.api.model.Users;
+import com.project.api.model.User;
 import com.project.api.repository.UserRepository;
 
 import jakarta.transaction.Transactional;
@@ -19,12 +19,12 @@ public class UserService {
     this.userRepository = userRepository;
   }
 
-  public List<Users> getUsers(){
+  public List<User> getUsers(){
     return userRepository.findAll();
   }
 
-  public void register(Users users){
-    Optional<Users> userOptional = userRepository.findByEmail(users.getEmail());
+  public void register(User users){
+    Optional<User> userOptional = userRepository.findByEmail(users.getEmail());
     if(userOptional.isPresent()){
       throw new IllegalStateException("This email is already taken");
     }
@@ -33,13 +33,16 @@ public class UserService {
   }
 
   @Transactional
-  public void updateProfil(Long userId, String name, String password, String email ){
-    Users users = userRepository.findById(userId).orElseThrow(
+  public void updateProfil(Long userId, String firstname,String lastname, String password, String email ){
+    User users = userRepository.findById(userId).orElseThrow(
       ()-> new IllegalStateException("User with id " + userId + " does not exists")
     );
 
-    if(name != null && name.length() > 0 && !Objects.equals(users.getName(), name)){
-      users.setName(name);
+    if(firstname != null && firstname.length() > 0 && !Objects.equals(users.getFirstname(), firstname)){
+      users.setFirstname(firstname);
+    }
+    if(lastname != null && lastname.length() > 0 && !Objects.equals(users.getLastname(), lastname)){
+      users.setLastname(lastname);
     }
 
     if(password!= null && password.length() > 0 && !Objects.equals(users.getPassword(), password)){
@@ -47,7 +50,7 @@ public class UserService {
     }
 
     if(email != null && email.length() > 0 && !Objects.equals(users.getEmail(),email)){
-      Optional<Users> userOptional = userRepository.findByEmail(email);
+      Optional<User> userOptional = userRepository.findByEmail(email);
 			if(userOptional.isPresent()){
 				throw new IllegalStateException("This email is already taken");
 			}
@@ -64,7 +67,7 @@ public class UserService {
   }
 
   public String login(String email, String password) {
-    Users user = userRepository.findByEmail(email).orElseThrow(
+    User user = userRepository.findByEmail(email).orElseThrow(
         () -> new IllegalStateException("User with email " + email + " does not exist")
     );
 

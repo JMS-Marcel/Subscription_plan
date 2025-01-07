@@ -5,12 +5,12 @@ import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import com.project.api.model.Users;
+import com.project.api.model.User;
 
 
 
 
 @Repository
-public interface UserRepository extends JpaRepository<Users, Long> {
-  Optional<Users> findByEmail(String email);
+public interface UserRepository extends JpaRepository<User, Long> {
+  Optional<User> findByEmail(String email);
 }
