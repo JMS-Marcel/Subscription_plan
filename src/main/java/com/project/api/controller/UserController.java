@@ -68,4 +68,12 @@ public class UserController {
         String response = userService.login(email, password);
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
+
+  @PostMapping("/logout")
+  public ResponseEntity<String> logout(@RequestBody Map<String, String> userData) {
+      String email = userData.get("email");
+      userService.logout(email);
+      return ResponseEntity.status(HttpStatus.OK).body("{\"message\":\"User logged out successfully\"}");
+  }
+  
 }

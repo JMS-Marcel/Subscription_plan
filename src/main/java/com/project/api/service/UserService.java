@@ -14,9 +14,11 @@ import jakarta.transaction.Transactional;
 @Service
 public class UserService {
   private final UserRepository userRepository;
+  private final SessionService sessionService;
 
-  public UserService(UserRepository userRepository){
+  public UserService(UserRepository userRepository, SessionService sessionService){
     this.userRepository = userRepository;
+    this.sessionService = sessionService;
   }
 
   public List<User> getUsers(){
@@ -77,5 +79,13 @@ public class UserService {
 
     // Return a success message or a token (for simplicity, returning a message here)
     return "Login successful";
+}
+public String logout(String email) {
+    User user = userRepository.findByEmail(email).orElseThrow(
+        () -> new IllegalStateException("User with email " + email + " does not exist")
+    );
+    sessionService.invalidateSession(user.getId());
+
+    return "User with email " + email + " has been logged out successfully";
 }
 }
