@@ -1,7 +1,6 @@
 package com.project.api.service;
 
 import java.time.LocalDate;
-import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -67,5 +66,29 @@ public class SubscriptionService {
       throw new IllegalStateException("Subscription with id :" + subscriptionId + " does not exists");
     }
     subscriptionRepository.deleteById(subscriptionId);
+  }
+
+  @Transactional
+  public void activated(Long subscriptionId) {
+    Subscription subscription = subscriptionRepository.findById(subscriptionId).orElseThrow(
+        () -> new IllegalStateException("Subscription with id " + subscriptionId + " does not exist")
+    );
+
+    if (!"ACTIVE".equals(subscription.getStatus())) {
+        subscription.setStatus("ACTIVE");
+        subscriptionRepository.save(subscription);
+    }
+  }
+
+  @Transactional
+  public void cancel(Long subscriptionId) {
+      Subscription subscription = subscriptionRepository.findById(subscriptionId).orElseThrow(
+          () -> new IllegalStateException("Subscription with id " + subscriptionId + " does not exist")
+      );
+  
+      if (!"CANCELLED".equals(subscription.getStatus())) {
+          subscription.setStatus("CANCELLED");
+          subscriptionRepository.save(subscription);
+      }
   }
 }
