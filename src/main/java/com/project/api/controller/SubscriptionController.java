@@ -2,6 +2,7 @@ package com.project.api.controller;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -35,14 +36,18 @@ public class SubscriptionController {
   @PutMapping(path = "{subscriptionId}")
   public ResponseEntity<String> updateSubscription(
     @PathVariable("subscriptionId") Long subscriptionId,
-   @RequestParam(required = false) String type, 
-   @RequestParam(required = false) LocalDate startDate, 
-   @RequestParam(required = false) LocalDate endDate,
-   @RequestParam(required = false) String status
+    @RequestBody Map<String, Object> subscriptionData
 
    )
   {
+
+    String type = (String) subscriptionData.get("type");
+    LocalDate startDate = LocalDate.parse(subscriptionData.get("startDate").toString());
+    LocalDate endDate = LocalDate.parse(subscriptionData.get("endDate").toString());
+    String status = (String) subscriptionData.get("status");
+
     subscriptionService.updateSubscription(subscriptionId, type, startDate, endDate, status);
+
     return ResponseEntity.status(HttpStatus.CREATED).body("{\"message\":\"Subscription updated successfully\"}");
   }
 
@@ -52,4 +57,16 @@ public class SubscriptionController {
 
     return ResponseEntity.status(HttpStatus.CREATED).body("{\"message\":\"Subscription id : " + subscriptionId + " is deleted successfully\"}");
   }
+
+  @PutMapping(path = "{subscriptionId}/activate")
+    public ResponseEntity<String> activateSubscription(@PathVariable("subscriptionId") Long subscriptionId) {
+        subscriptionService.activated(subscriptionId);
+        return ResponseEntity.status(HttpStatus.OK).body("{\"message\":\"Subscription activated successfully\"}");
+    }
+
+    @PutMapping(path = "{subscriptionId}/cancel")
+    public ResponseEntity<String> cancelSubscription(@PathVariable("subscriptionId") Long subscriptionId) {
+        subscriptionService.cancel(subscriptionId);
+        return ResponseEntity.status(HttpStatus.OK).body("{\"message\":\"Subscription cancelled successfully\"}");
+    } 
 }
