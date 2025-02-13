@@ -27,7 +27,7 @@ public class SubscriptionController {
   }
 
   @PostMapping()
-  public ResponseEntity<String> createSubscription(@RequestBody Subscription subscription){
+  public ResponseEntity<String> createSubscription(@RequestBody SubscriptionRequest subscription){
     subscriptionService.addNewSubscription(subscription);
 
     return ResponseEntity.status(HttpStatus.CREATED).body("{\"message\":\"Subscription added successfully\"}");
@@ -43,10 +43,10 @@ public class SubscriptionController {
 
     String type = (String) subscriptionData.get("type");
     LocalDate startDate = LocalDate.parse(subscriptionData.get("startDate").toString());
-    LocalDate endDate = LocalDate.parse(subscriptionData.get("endDate").toString());
+    LocalDate nextBilling = LocalDate.parse(subscriptionData.get("nextBilling").toString());
     String status = (String) subscriptionData.get("status");
 
-    subscriptionService.updateSubscription(subscriptionId, type, startDate, endDate, status);
+    subscriptionService.updateSubscription(subscriptionId, type, startDate, nextBilling, status);
 
     return ResponseEntity.status(HttpStatus.CREATED).body("{\"message\":\"Subscription updated successfully\"}");
   }
