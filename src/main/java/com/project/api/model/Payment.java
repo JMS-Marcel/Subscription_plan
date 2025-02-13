@@ -28,7 +28,7 @@ public class Payment {
 
   private Double amount;
   private LocalDate date;
-  private String status;
+  private String status;// Exemple : "PENDING", "SUCCESS", "FAILED"
 
   @ManyToOne
   @JoinColumn( name = "subscription_id")
