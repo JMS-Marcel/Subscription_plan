@@ -1,4 +1,5 @@
 package com.project.api.model;
+
 import java.util.Collection;
 import java.util.List;
 
@@ -6,15 +7,10 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToOne;
-import jakarta.persistence.SequenceGenerator;
-import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Email;
+
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -40,18 +36,27 @@ public class User implements UserDetails {
   )
 
   private Long id;
+
+  @NotBlank(message = "Le prénom est obligatoire")
   private String firstname;
+
+  @NotBlank(message = "Le nom est obligatoire")
   private String lastname;
+
+  @NotBlank(message = "Le mot de passe est obligatoire")
   private String password;
+
+  @NotBlank(message = "L'email est obligatoire")
+  @Email(message = "L'email n'est pas valide")
   private String email;
 
   @Enumerated(EnumType.STRING)
   private Role role;
 
-  // @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+  // @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
   // private List<Token> tokens;
 
-  @OneToOne(mappedBy = "user")
+  @OneToOne(mappedBy = "subscription", cascade = CascadeType.ALL)
   private Subscription subscription;
 
   @Override
