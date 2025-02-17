@@ -14,12 +14,25 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
+import com.project.api.model.User;
 
 
 @Service
 public class JwtService {
 
   public static final String SECRET_KEY = "0bab10776348a8fc4a5923df2b85f0cfa32429c37a22dc1017f736e480280c19";
+
+public String extractFirstname(String token) {
+    return extractClaim(token, claims -> claims.get("firstname", String.class));
+}
+
+public String extractLastname(String token) {
+    return extractClaim(token, claims -> claims.get("lastname", String.class));
+}
+
+public String extractRole(String token) {
+    return extractClaim(token, claims -> claims.get("role", String.class));
+}
   
   public String extractUsername(String token){
     return extractClaim(token, Claims::getSubject);
@@ -32,7 +45,16 @@ public class JwtService {
   }
 
   public String generateToken(UserDetails userDetails){
-    return generateToken(new HashMap<>(), userDetails);
+     // Caster UserDetails en User pour accéder aux propriétés supplémentaires
+     User user = (User) userDetails;
+
+     // Créer une map pour les claims supplémentaires
+     Map<String, Object> extraClaims = new HashMap<>();
+     extraClaims.put("firstname", user.getFirstname());
+     extraClaims.put("lastname", user.getLastname());
+     extraClaims.put("role", user.getRole());
+
+    return generateToken(extraClaims, userDetails);
   }
 
   public String generateToken(
