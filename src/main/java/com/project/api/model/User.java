@@ -56,7 +56,7 @@ public class User implements UserDetails {
   // @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
   // private List<Token> tokens;
 
-  @OneToOne(mappedBy = "subscription", cascade = CascadeType.ALL)
+  @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
   private Subscription subscription;
 
   @Override

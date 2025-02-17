@@ -55,5 +55,9 @@ public class PackageService {
 
     
   }
+
+  public Packages getPackageById(Long id) {
+    return packageRepository.findById(id).orElse(null);
+}
  
 }

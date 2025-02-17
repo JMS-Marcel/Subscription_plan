@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import com.project.api.model.Subscription;
+import com.project.api.model.SubscriptionStatus;
 import com.project.api.service.SubscriptionService;
 
 
@@ -44,7 +45,9 @@ public class SubscriptionController {
     String type = (String) subscriptionData.get("type");
     LocalDate startDate = LocalDate.parse(subscriptionData.get("startDate").toString());
     LocalDate nextBilling = LocalDate.parse(subscriptionData.get("nextBilling").toString());
-    String status = (String) subscriptionData.get("status");
+
+    String statusString = (String) subscriptionData.get("status");
+    SubscriptionStatus status = SubscriptionStatus.valueOf(statusString);
 
     subscriptionService.updateSubscription(subscriptionId, type, startDate, nextBilling, status);
 
