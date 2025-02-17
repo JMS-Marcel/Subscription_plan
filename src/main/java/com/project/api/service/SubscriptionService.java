@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import com.project.api.controller.SubscriptionRequest;
 import com.project.api.model.Packages;
 import com.project.api.model.Subscription;
+import com.project.api.model.SubscriptionStatus;
 import com.project.api.model.User;
 import com.project.api.repository.PackageRepository;
 import com.project.api.repository.SubscriptionRepository;
@@ -38,12 +39,6 @@ public class SubscriptionService {
   }
 
   public void addNewSubscription(SubscriptionRequest request){
-    // Optional<Subscription> subscriptionOptional = subscriptionRepository.findByType(subscription.getType());
-    // if(subscriptionOptional.isPresent()){
-    //   throw new IllegalStateException("This Type is already exist");
-    // }
-    // subscriptionRepository.save(subscription);
-      // Récupérer l'utilisateur par son ID
       User user = userRepository.findById(request.getUserId())
       .orElseThrow(() -> new RuntimeException("User not found"));
 
@@ -67,7 +62,7 @@ public class SubscriptionService {
   public void updateSubscription(Long suscriptionId, String type,
                                 @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate startDate, 
                                 @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate nextBilling, 
-                                String status ){
+                                SubscriptionStatus status ){
     Subscription subscription = subscriptionRepository.findById(suscriptionId).orElseThrow(
       ()-> new IllegalStateException("Subscription with id " + suscriptionId + " does not exists")
     );
@@ -84,7 +79,7 @@ public class SubscriptionService {
     if(nextBilling != null && !Objects.equals(subscription.getNextBilling(), nextBilling)){
       subscription.setNextBilling(nextBilling);
     }
-    if(status != null && status.length() > 0 && !Objects.equals(subscription.getStatus(), status)){
+    if (status != null && subscription.getStatus() != status) {
       subscription.setStatus(status);
     }
   }
@@ -103,21 +98,19 @@ public class SubscriptionService {
         () -> new IllegalStateException("Subscription with id " + subscriptionId + " does not exist")
     );
 
-    if (!"ACTIVE".equals(subscription.getStatus())) {
-        subscription.setStatus("ACTIVE");
-        subscriptionRepository.save(subscription);
+    if (subscription.getStatus() != SubscriptionStatus.ACTIVE) {
+        subscription.setStatus(SubscriptionStatus.ACTIVE);
     }
   }
 
   @Transactional
   public void cancel(Long subscriptionId) {
-      Subscription subscription = subscriptionRepository.findById(subscriptionId).orElseThrow(
-          () -> new IllegalStateException("Subscription with id " + subscriptionId + " does not exist")
-      );
-  
-      if (!"CANCELLED".equals(subscription.getStatus())) {
-          subscription.setStatus("CANCELLED");
-          subscriptionRepository.save(subscription);
-      }
+    Subscription subscription = subscriptionRepository.findById(subscriptionId).orElseThrow(
+        () -> new IllegalStateException("Subscription with id " + subscriptionId + " does not exist")
+    );
+
+    if (subscription.getStatus() != SubscriptionStatus.CANCELLED) {
+        subscription.setStatus(SubscriptionStatus.CANCELLED);
+    }
   }
 }
