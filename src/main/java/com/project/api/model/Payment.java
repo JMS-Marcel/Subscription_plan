@@ -1,6 +1,6 @@
 package com.project.api.model;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -27,7 +27,8 @@ public class Payment {
   private Long id;
 
   private Double amount;
-  private Date date;
+  private LocalDate date;
+  private String status;// Exemple : "PENDING", "SUCCESS", "FAILED"
 
   @ManyToOne
   @JoinColumn( name = "subscription_id")

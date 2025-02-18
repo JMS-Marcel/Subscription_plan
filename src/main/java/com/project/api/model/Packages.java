@@ -1,34 +1,34 @@
 package com.project.api.model;
-import jakarta.persistence.*;
 
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+@Entity
 @NoArgsConstructor
 @Getter
 @Setter
-@Entity
 @Table
-public class Users {
-   @Id
+public class Packages {
+  @Id
   @SequenceGenerator(
-    name = "user_sequence",
-    sequenceName = "user_sequence",
+    name = "package_sequence",
+    sequenceName = "package_sequence",
     allocationSize = 1
   )
   @GeneratedValue(
     strategy= GenerationType.SEQUENCE,
-    generator= "user_sequence"
+    generator= "package_sequence"
 
   )
 
   private Long id;
   private String name;
-  private String password;
-  private String email;
+  private Double price;
+  private String description;
 
-  @OneToOne(mappedBy = "user")
-  private Subscription subscription;
-  
+  @Lob 
+  private byte[] image;
+
 }
