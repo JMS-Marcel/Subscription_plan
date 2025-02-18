@@ -30,6 +30,7 @@ public class PackageController {
   @PostMapping()
   public ResponseEntity<String> addPackage(
       @RequestParam("name") String name,
+      @RequestParam("description") String description,
       @RequestParam("price") Double price,
       @RequestParam(value = "image", required = false) MultipartFile image) {
 
@@ -38,6 +39,7 @@ public class PackageController {
       Packages pkg = new Packages();
       pkg.setName(name);
       pkg.setPrice(price);
+      pkg.setDescription(description);
 
       // Check if an image was provided
       if (!image.isEmpty()) {
@@ -89,17 +91,17 @@ public class PackageController {
      * @param id The ID of the package.
      * @return ResponseEntity containing the image bytes or an error message.
      */
-    @GetMapping("/image/{id}")
-    public ResponseEntity<byte[]> getImage(@PathVariable Long id) {
-        // Retrieve the package from the service layer
-        Packages pkg = packageService.getPackageById(id);
+    // @GetMapping("/image/{id}")
+    // public ResponseEntity<byte[]> getImage(@PathVariable Long id) {
+    //     // Retrieve the package from the service layer
+    //     Packages pkg = packageService.getPackageById(id);
 
-        if (pkg == null || pkg.getImage() == null || pkg.getImage().length == 0) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
-        }
+    //     if (pkg == null || pkg.getImage() == null || pkg.getImage().length == 0) {
+    //         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+    //     }
 
-        return ResponseEntity.ok()
-                .header("Content-Type", "image/jpeg") // Adjust content type as needed
-                .body(pkg.getImage());
-    }
+    //     return ResponseEntity.ok()
+    //             .header("Content-Type", "image/jpeg") // Adjust content type as needed
+    //             .body(pkg.getImage());
+    // }
 }

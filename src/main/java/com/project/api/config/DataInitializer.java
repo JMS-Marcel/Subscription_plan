@@ -28,7 +28,7 @@ public class DataInitializer implements CommandLineRunner {
             admin.setFirstname("Admin");
             admin.setLastname("User");
             admin.setEmail("admin@example.com");
-            admin.setPassword(passwordEncoder.encode("adminpassword"));
+            admin.setPassword(passwordEncoder.encode("password"));
             admin.setRole(Role.ADMIN);
 
             
@@ -36,7 +36,7 @@ public class DataInitializer implements CommandLineRunner {
             user.setFirstname("John");
             user.setLastname("Doe");
             user.setEmail("john.doe@example.com");
-            user.setPassword(passwordEncoder.encode("userpassword"));
+            user.setPassword(passwordEncoder.encode("password"));
             user.setRole(Role.USER);
 
             

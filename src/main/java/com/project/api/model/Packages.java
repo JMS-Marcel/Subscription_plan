@@ -26,8 +26,9 @@ public class Packages {
   private Long id;
   private String name;
   private Double price;
-  // upload file
-  @Lob // Maps to BYTEA in PostgreSQL
+  private String description;
+
+  @Lob 
   private byte[] image;
 
 }
