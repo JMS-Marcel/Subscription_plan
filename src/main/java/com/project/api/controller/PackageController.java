@@ -18,6 +18,8 @@ import java.io.IOException;
 public class PackageController {
   private final PackageService packageService;
 
+  
+
   public PackageController(PackageService packageService) {
     this.packageService = packageService;
   }
@@ -43,9 +45,9 @@ public class PackageController {
 
       // Check if an image was provided
       if (!image.isEmpty()) {
-        // Convert the uploaded file to bytes and set it in the entity
         pkg.setImage(image.getBytes());
       }
+      
       packageService.addPackage(pkg);
 
       return ResponseEntity.status(HttpStatus.CREATED).body("{\"message\":\"Package successfully\"}");

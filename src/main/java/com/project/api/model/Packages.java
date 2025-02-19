@@ -27,6 +27,7 @@ public class Packages {
   private String name;
   private Double price;
   private String description;
+  // private String image;
 
   @Lob 
   private byte[] image;
